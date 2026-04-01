@@ -263,7 +263,7 @@ section{padding:clamp(var(--space-12),6vw,var(--space-24)) 0;border-bottom:1px s
 <!-- TOP BAR -->
 <header class="top-bar">
   <div class="top-bar-left">
-    <span class="local-label">Berlin</span>
+    <span class="local-label" id="cityLabel">Detecting...</span>
     <span class="local-time" id="clock">00:00</span>
   </div>
   <nav class="nav-links" aria-label="Main navigation">
@@ -703,16 +703,38 @@ barEl.style.width  = (1 / hellos.length * 100) + '%';
 current = 1;
 setTimeout(showNext, 300);
 
-/* ── CLOCK ── */
-function updateClock() {
-  const el = document.getElementById('clock');
-  if (el) el.textContent = new Date().toLocaleTimeString('de-DE', {
-    hour:'2-digit', minute:'2-digit', second:'2-digit',
-    timeZone:'Europe/Berlin'
-  });
+/* ── CLOCK + LOCATION ── */
+async function initClock() {
+  let timeZone = 'Europe/Berlin';
+  let city     = 'Berlin';
+
+  try {
+    const res  = await fetch('https://ipapi.co/json/');
+    const data = await res.json();
+    if (data && data.timezone) timeZone = data.timezone;
+    if (data && data.city)     city     = data.city;
+  } catch (e) {
+    // fallback to Berlin if API fails
+  }
+
+  const cityLabel = document.getElementById('cityLabel');
+  if (cityLabel) cityLabel.textContent = city.toUpperCase();
+
+  function updateClock() {
+    const el = document.getElementById('clock');
+    if (el) el.textContent = new Date().toLocaleTimeString('en-GB', {
+      hour:     '2-digit',
+      minute:   '2-digit',
+      second:   '2-digit',
+      timeZone: timeZone
+    });
+  }
+
+  updateClock();
+  setInterval(updateClock, 1000);
 }
-updateClock();
-setInterval(updateClock, 1000);
+
+initClock();
 
 /* ── THEME ── */
 (function(){
