@@ -80,15 +80,82 @@ ul{list-style:none;}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.7);}}
 .hero-headline{font-size:var(--text-hero);font-weight:700;line-height:0.92;letter-spacing:-0.03em;text-transform:uppercase;margin-bottom:var(--space-10);word-break:break-word;overflow-wrap: break-word;}
 @media(max-width:480px){.hero-headline {letter-spacing: -0.01em;}}
-@media(max-width:768px) {.projects-sticky-inner {position: relative;height: auto;display: flex;flex-direction: column;}
-.projects-text-col {position: relative;width: 100%;height: auto;padding: var(--space-8) var(--space-6);background: rgba(0,0,0,0.85);align-items: flex-start;}
-.project-text-slide {position: relative;transform: none !important;opacity: 1 !important;pointer-events: auto;display: none;}
-.project-text-slide.active {display: flex;}
-.projects-image-col {position: relative;height: 55vw;min-height: 220px;}
-.project-image-slide {clip-path: none !important;}
-.project-image-slide:not([data-index="0"]) {display: none;}
-.projects-sticky-outer{height: auto !important;}
-.projects-dots { display: none; }}
+/* FIX 2 — Projects mobile REWRITE */
+@media(max-width:768px) {
+
+  .projects-sticky-outer {
+    height: auto !important;
+  }
+
+  .projects-sticky-inner {
+    position: relative !important;
+    height: auto !important;
+    overflow: visible !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .projects-image-col {
+    position: relative !important;
+    width: 100% !important;
+    height: 60vw !important;
+    min-height: 220px !important;
+  }
+
+  .project-image-slide {
+    position: absolute !important;
+    inset: 0 !important;
+    clip-path: none !important;
+    display: none !important;
+  }
+
+  .project-image-slide[data-index="0"] {
+    display: block !important;
+  }
+
+  .projects-text-col {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    background: #0e0d0b !important;
+    padding: 2rem 1.5rem !important;
+    align-items: flex-start !important;
+  }
+
+  .project-text-slide {
+    position: relative !important;
+    display: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    pointer-events: auto !important;
+    width: 100% !important;
+  }
+
+  .project-text-slide.active {
+    display: flex !important;
+  }
+
+  /* Mobile swipe buttons */
+  .mobile-project-nav {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 1rem 1.5rem !important;
+    background: #0e0d0b !important;
+  }
+
+  .projects-dots {
+    display: none !important;
+  }
+
+  .projects-counter {
+    position: relative !important;
+    left: auto !important;
+    bottom: auto !important;
+    padding: 0.5rem 1.5rem !important;
+    background: #0e0d0b !important;
+  }
+}
 @media(max-width:480px) {.contact-headline {font-size: clamp(2.5rem, 10vw, 5rem);margin-bottom: var(--space-8);}}
 @media(max-width:480px) {.skills-grid {grid-template-columns: 1fr;}}
 @media(max-width:480px) {.contact-links {flex-direction: column;gap: var(--space-4);align-items: flex-start;}}
@@ -615,6 +682,12 @@ section{padding:clamp(var(--space-12),6vw,var(--space-24)) 0;border-bottom:1px s
       <!-- slide counter -->
       <div class="projects-counter" id="projectsCounter">01 / 07</div>
 
+      <!-- MOBILE PROJECT NAV — inside projects-sticky-inner, after counter -->
+  <div class="mobile-project-nav" id="mobileProjectNav" style="display:none;">
+  <button onclick="mobileProjectPrev()" style="font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:0.1em;color:rgba(255,255,255,0.5);background:none;border:1px solid rgba(255,255,255,0.2);padding:0.5rem 1rem;cursor:pointer;">← PREV</button>
+  <button onclick="mobileProjectNext()" style="font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:0.1em;color:rgba(255,255,255,0.5);background:none;border:1px solid rgba(255,255,255,0.2);padding:0.5rem 1rem;cursor:pointer;">NEXT →</button>
+  </div>
+
     </div><!-- end projects-sticky-inner -->
   </div><!-- end projects-sticky-outer -->
 </section>
@@ -938,6 +1011,37 @@ document.addEventListener('keydown', function(e) {
   // Hide when leaving window
   document.addEventListener('mouseleave', () => cursor.style.opacity = '0');
   document.addEventListener('mouseenter', () => cursor.style.opacity = '1');
+})();
+/* ── MOBILE PROJECT NAV ── */
+(function() {
+  if (window.innerWidth > 768) return;
+
+  const textSlides = document.querySelectorAll('.project-text-slide');
+  const imgSlides  = document.querySelectorAll('.project-image-slide');
+  const counter    = document.getElementById('projectsCounter');
+  const mobileNav  = document.getElementById('mobileProjectNav');
+  const N          = textSlides.length;
+  let current      = 0;
+
+  if (mobileNav) mobileNav.style.display = 'flex';
+
+  function goTo(idx) {
+    textSlides[current].classList.remove('active');
+    imgSlides[current].style.display = 'none';
+    current = (idx + N) % N;
+    textSlides[current].classList.add('active');
+    imgSlides[current].style.display = 'block';
+    if (counter) counter.textContent =
+      String(current + 1).padStart(2, '0') + ' / ' + String(N).padStart(2, '0');
+  }
+
+  window.mobileProjectNext = () => goTo(current + 1);
+  window.mobileProjectPrev = () => goTo(current - 1);
+
+  // Init — hide all images except first
+  imgSlides.forEach((img, i) => {
+    img.style.display = i === 0 ? 'block' : 'none';
+  });
 })();
 </script>
 </body>
