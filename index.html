@@ -1025,23 +1025,39 @@ document.addEventListener('keydown', function(e) {
 
   if (mobileNav) mobileNav.style.display = 'flex';
 
+  // Init all images — force hide everything except first
+  imgSlides.forEach((img, i) => {
+    img.style.cssText = i === 0
+      ? 'display:block !important; position:absolute !important; inset:0 !important; clip-path:none !important;'
+      : 'display:none !important; position:absolute !important; inset:0 !important; clip-path:none !important;';
+  });
+
   function goTo(idx) {
+    // Hide current
     textSlides[current].classList.remove('active');
-    imgSlides[current].style.display = 'none';
+    imgSlides[current].style.cssText =
+      'display:none !important; position:absolute !important; inset:0 !important; clip-path:none !important;';
+
+    // Move to next
     current = (idx + N) % N;
+
+    // Show new
     textSlides[current].classList.add('active');
-    imgSlides[current].style.display = 'block';
+    imgSlides[current].style.cssText =
+      'display:block !important; position:absolute !important; inset:0 !important; clip-path:none !important;';
+
+    // Update counter
     if (counter) counter.textContent =
       String(current + 1).padStart(2, '0') + ' / ' + String(N).padStart(2, '0');
+
+    // Scroll to top of projects image so user sees the new image
+    const imgCol = document.querySelector('.projects-image-col');
+    if (imgCol) imgCol.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
   window.mobileProjectNext = () => goTo(current + 1);
   window.mobileProjectPrev = () => goTo(current - 1);
 
-  // Init — hide all images except first
-  imgSlides.forEach((img, i) => {
-    img.style.display = i === 0 ? 'block' : 'none';
-  });
 })();
 </script>
 </body>
