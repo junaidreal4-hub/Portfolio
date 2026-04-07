@@ -175,7 +175,12 @@ section{padding:clamp(var(--space-12),6vw,var(--space-24)) 0;border-bottom:1px s
 .section-title{font-size:var(--text-2xl);font-weight:700;line-height:1;text-transform:uppercase;letter-spacing:-0.02em;margin-bottom:var(--space-10);}
 
 /* ABOUT */
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-16);align-items:start;}
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 300px 1fr;
+  gap: var(--space-10);
+  align-items: start;
+}
 .about-text p{font-size:var(--text-base);color:var(--color-text-muted);line-height:1.75;margin-bottom:var(--space-6);}
 .about-text p strong{color:var(--color-text);font-weight:500;}
 .about-side-label{font-family:'Space Mono',monospace;font-size:var(--text-xs);letter-spacing:0.14em;text-transform:uppercase;color:var(--color-text-faint);margin-bottom:var(--space-4);}
@@ -183,7 +188,15 @@ section{padding:clamp(var(--space-12),6vw,var(--space-24)) 0;border-bottom:1px s
 .about-side-item:last-child{border-bottom:1px solid var(--color-divider);}
 .about-side-name{font-size:var(--text-sm);color:var(--color-text);font-weight:500;}
 .about-side-val{font-family:'Space Mono',monospace;font-size:var(--text-xs);color:var(--color-text-muted);}
-@media(max-width:768px){.about-grid{grid-template-columns:1fr;gap:var(--space-10);}}
+@media(max-width:768px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+  .about-photo-col {
+    order: -1;
+  }
+}
 
 /* SKILLS */
 .skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1px;background:var(--color-border);border:1px solid var(--color-border);}
@@ -428,9 +441,9 @@ section{padding:clamp(var(--space-12),6vw,var(--space-24)) 0;border-bottom:1px s
 
   <!-- PHOTO — place your image here -->
   <div class="about-photo-col">
-    <div class="polaroid">
+    <div class="about-photo-wrap">
       <img src="assets/junaid.png" alt="Mohammed Junaid Khan" />
-      <span class="polaroid-caption">Spring, 2026</span>
+      <span class="polaroid-caption">Berlin, 2026</span>
     </div>
   </div>
 
