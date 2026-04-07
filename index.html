@@ -438,6 +438,7 @@ section{padding:clamp(var(--space-12),6vw,var(--space-24)) 0;border-bottom:1px s
   max-width: 320px;
   width: 100%;
   margin-top: 16px;
+  margin-left: 40px;
 }
 .polaroid:hover {
   transform: rotate(0deg) scale(1.03);
@@ -461,11 +462,16 @@ section{padding:clamp(var(--space-12),6vw,var(--space-24)) 0;border-bottom:1px s
 .polaroid::before {
   content: '';
   position: absolute;
-  top: -8px; left: 50%;
-  transform: translateX(-50%);
-  width: 60px; height: 18px;
-  background: rgba(255,230,100,0.45);
-  border-radius: 2px; z-index: 5;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-1deg);
+  width: 80px;
+  height: 24px;
+  background: rgba(255, 235, 120, 0.55);
+  border-radius: 2px;
+  z-index: 5;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  border: 1px solid rgba(255,220,80,0.3);
 }
 @media(max-width:768px) {
   .about-right { order: -1; }
@@ -559,7 +565,6 @@ section{padding:clamp(var(--space-12),6vw,var(--space-24)) 0;border-bottom:1px s
 <div class="about-right">
   <div class="about-photo-sticky">
     <div class="polaroid">
-      <div class="polaroid-pin"></div>
       <img src="assets/junaid.png" alt="Mohammed Junaid Khan" />
       <span class="polaroid-caption">Berlin, 2026</span>
     </div>
