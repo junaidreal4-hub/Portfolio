@@ -400,44 +400,78 @@ section{padding:clamp(var(--space-12),6vw,var(--space-24)) 0;border-bottom:1px s
   .cursor { display: none; }
 }
 
-/* ABOUT PHOTO */
-.about-photo-wrap {
-  position: relative;
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-  max-width: 420px;
+/* PINNED POLAROID */
+.about-right { position: relative; }
+.about-photo-sticky {
+  position: sticky;
+  top: 80px;
+  display: flex;
+  justify-content: center;
+  padding-top: var(--space-4);
 }
-.about-photo-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  display: block;
-  filter: grayscale(20%) contrast(1.05);
-  transition: filter 0.4s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1);
-}
-.about-photo-wrap:hover img {
-  filter: grayscale(0%) contrast(1);
-  transform: scale(1.02);
-}
-.about-photo-tag {
+.polaroid-pin {
   position: absolute;
-  bottom: var(--space-4);
-  left: var(--space-4);
+  top: -14px; left: 50%;
+  transform: translateX(-50%);
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #e74c3c, #8b0000);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.3);
+  z-index: 10;
+}
+.polaroid-pin::after {
+  content: '';
+  position: absolute;
+  bottom: -8px; left: 50%;
+  transform: translateX(-50%);
+  width: 3px; height: 10px;
+  background: linear-gradient(to bottom, #999, #666);
+  border-radius: 0 0 2px 2px;
+}
+.polaroid {
+  position: relative;
+  background: #fff;
+  padding: 14px 14px 50px 14px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.08), 0 10px 30px rgba(0,0,0,0.15), 0 20px 60px rgba(0,0,0,0.08);
+  transform: rotate(3deg);
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease;
+  max-width: 320px;
+  width: 100%;
+  margin-top: 16px;
+}
+.polaroid:hover {
+  transform: rotate(0deg) scale(1.03);
+  box-shadow: 0 8px 12px rgba(0,0,0,0.1), 0 20px 50px rgba(0,0,0,0.2), 0 40px 80px rgba(0,0,0,0.1);
+}
+.polaroid img {
+  width: 100%; height: 340px;
+  object-fit: cover; object-position: center top;
+  display: block;
+  filter: sepia(8%) contrast(1.05) saturate(0.95);
+  transition: filter 0.4s ease;
+}
+.polaroid:hover img { filter: sepia(0%) contrast(1) saturate(1); }
+.polaroid-caption {
+  display: block; text-align: center;
   font-family: 'Space Mono', monospace;
-  font-size: var(--text-xs);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.7);
-  background: rgba(0,0,0,0.45);
-  backdrop-filter: blur(6px);
-  padding: var(--space-1) var(--space-3);
+  font-size: 0.65rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: #999;
+  margin-top: 12px;
+}
+.polaroid::before {
+  content: '';
+  position: absolute;
+  top: -8px; left: 50%;
+  transform: translateX(-50%);
+  width: 60px; height: 18px;
+  background: rgba(255,230,100,0.45);
+  border-radius: 2px; z-index: 5;
 }
 @media(max-width:768px) {
-  .about-photo-wrap {
-    max-width: 100%;
-    aspect-ratio: 4 / 5;
-  }
+  .about-right { order: -1; }
+  .about-photo-sticky { position: relative; top: auto; }
+  .polaroid { max-width: 260px; margin: 0 auto; }
+  .polaroid img { height: 280px; }
 }
 
 </style>
@@ -516,18 +550,21 @@ section{padding:clamp(var(--space-12),6vw,var(--space-24)) 0;border-bottom:1px s
     <p>I'm a Data Analytics master's student at <strong>Berlin School of Business and Innovation (BSBI)</strong> with a serious obsession for turning messy datasets into actionable insights. I specialise in machine learning, EDA, and building data products that actually get used.</p>
     <p>On a mission to understand why data behaves the way it does and to build systems so intuitive that even a non-technical stakeholder would be impressed. I also do <strong>full-stack web development</strong> — React, TypeScript, Vite and have shipped production websites with real users.</p>
     <p>Currently hunting for a <strong>Werkstudent Data or Web role</strong> in Berlin where I can ship things that matter.</p>
-    <p>I also take on <strong>freelance projects</strong> — from landing pages and corporate websites to data dashboards and full-stack web apps. If you need something built properly, on time, and without the agency markup, let's talk.</p>
+    <p>I also take on <strong>freelance projects</strong> from landing pages and corporate websites to data dashboards and full-stack web apps. If you need something built properly, on time, and without the agency markup, let's talk.</p>
     <br>
     <a href="mailto:junaidreal4@gmail.com" class="btn-primary">GET IN TOUCH</a>
   </div>
 
-  <!-- PHOTO — place your image here -->
-  <div class="about-photo-col">
-    <div class="about-photo-wrap">
+<!-- PHOTO -->
+<div class="about-right">
+  <div class="about-photo-sticky">
+    <div class="polaroid">
+      <div class="polaroid-pin"></div>
       <img src="assets/junaid.png" alt="Mohammed Junaid Khan" />
       <span class="polaroid-caption">Berlin, 2026</span>
     </div>
   </div>
+</div>
 
   <div class="about-side">
     <p class="about-side-label">QUICK FACTS</p>
