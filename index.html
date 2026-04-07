@@ -1405,17 +1405,12 @@ document.addEventListener('keydown', function(e) {
 /* ── TOP BAR HIDE ON SCROLL ── */
 (function(){
   const bar = document.querySelector('.top-bar');
-  let lastY = 0;
   window.addEventListener('scroll', function(){
-    const y = window.scrollY;
-    if(y < 10){
-      bar.style.transform = 'translateY(0)';
-    } else if(y > lastY){
+    if(window.scrollY > 10){
       bar.style.transform = 'translateY(-110%)';
     } else {
       bar.style.transform = 'translateY(0)';
     }
-    lastY = y;
   }, {passive:true});
 })();
 
