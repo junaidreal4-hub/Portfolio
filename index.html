@@ -1122,15 +1122,16 @@ initClock();
 /* ── MOBILE NAV ── */
 const mobileMenuBtn = document.getElementById('mobileMenuBtn');
 const mobileNav     = document.getElementById('mobileNav');
-mobileMenuBtn.addEventListener('click', () => {
-  const isOpen = mobileNav.classList.toggle('open');
-  mobileMenuBtn.textContent = isOpen ? 'Close' : 'Menu';
-});
-function closeMobileNav() {
-  mobileNav.classList.remove('open');
-  mobileMenuBtn.textContent = 'Menu';
+if (mobileMenuBtn && mobileNav) {
+  mobileMenuBtn.addEventListener('click', () => {
+    const isOpen = mobileNav.classList.toggle('open');
+    mobileMenuBtn.textContent = isOpen ? 'Close' : 'Menu';
+  });
 }
-
+function closeMobileNav() {
+  if (mobileNav) mobileNav.classList.remove('open');
+  if (mobileMenuBtn) mobileMenuBtn.textContent = 'Menu';
+}
 /* ── ACTIVE NAV ON SCROLL ── */
 const sections = document.querySelectorAll('#about,#skills,#experience,#projects,#contact');
 const navLinks = document.querySelectorAll('.nav-links a');
