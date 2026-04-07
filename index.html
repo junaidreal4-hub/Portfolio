@@ -37,8 +37,8 @@
   --color-text:#e8e6e0;--color-text-muted:#7a7875;--color-text-faint:#3d3c3a;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth;scroll-padding-top:80px;}
-body{font-family:'Space Grotesk',sans-serif;color:var(--color-text);background:var(--color-bg);transition:background var(--transition),color var(--transition);overflow-x:hidden;}
+html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth;scroll-padding-top:80px;overflow-x:hidden;}
+body{font-family:'Space Grotesk',sans-serif;color:var(--color-text);background:var(--color-bg);transition:background var(--transition),color var(--transition);}
 a{color:inherit;text-decoration:none;}
 a:hover{opacity:0.7;}
 button{cursor:pointer;background:none;border:none;font:inherit;color:inherit;}
@@ -64,6 +64,7 @@ ul{list-style:none;}
   padding: var(--space-4) var(--space-6);
   background: transparent;
   pointer-events: none;
+  will-change: transform;
 }
 .top-bar-left  { display: flex; align-items: center; gap: var(--space-3); pointer-events: auto; }
 .top-bar-center { display: flex; justify-content: center; pointer-events: auto; }
@@ -75,15 +76,15 @@ ul{list-style:none;}
 
 /* 4-DOT BUTTON */
 .nav-dots-btn { position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: none; border: none; cursor: pointer; }
-.nav-dots-btn .dots-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; width: 18px; height: 18px; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
-.nav-dots-btn .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--color-text-muted); transition: background 0.3s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1); }
+.nav-dots-btn .dots-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; width: 14px; height: 14px; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
+.nav-dots-btn .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--color-text-muted); transition: background 0.3s ease; display: block; }
 .nav-dots-btn:hover .dots-grid { transform: rotate(90deg); }
 .nav-dots-btn:hover .dot, .nav-dots-btn.nav-open .dot { background: var(--color-text); }
 .nav-dots-btn.nav-open .dots-grid { transform: rotate(135deg); }
 
 /* FULLSCREEN NAV OVERLAY */
 .nav-overlay {
-  position: fixed; inset: 0; z-index: 200;
+  position: fixed; inset: 0; z-index: 250;
   background: var(--color-bg);
   display: flex; flex-direction: column; justify-content: center;
   padding: var(--space-16);
@@ -95,12 +96,13 @@ ul{list-style:none;}
 
 .nav-overlay-header {
   position: absolute; top: 0; left: 0; right: 0;
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex; align-items: center; justify-content: flex-end;
   padding: var(--space-4) var(--space-6);
 }
 .nav-overlay-close { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: none; border: none; cursor: pointer; margin-left: auto; }
-.nav-overlay-close .dots-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; width: 18px; height: 18px; transform: rotate(135deg); transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
-.nav-overlay-close .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--color-text); }
+.nav-overlay-close .dots-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; width: 14px; height: 14px; transform: rotate(45deg); transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
+.nav-overlay-close .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--color-text); display: block; }
+.nav-overlay-close:hover .dots-grid { transform: rotate(135deg); }
 .nav-overlay-close:hover .dots-grid { transform: rotate(225deg); }
 
 /* Big nav links */
@@ -602,7 +604,6 @@ section{padding:clamp(var(--space-12),6vw,var(--space-24)) 0;border-bottom:1px s
 <!-- FULLSCREEN NAV OVERLAY -->
 <nav class="nav-overlay" id="navOverlay" aria-hidden="true">
   <div class="nav-overlay-header">
-    <span style="font-family:'Space Mono',monospace;font-size:var(--text-xs);letter-spacing:0.12em;text-transform:uppercase;color:var(--color-text-faint);">MDJK.VERCEL.APP</span>
     <button class="nav-overlay-close" id="navOverlayClose" aria-label="Close navigation">
       <div class="dots-grid">
         <span class="dot"></span>
