@@ -1283,11 +1283,36 @@ function closeContactForm() {
 function handleOverlayClick(e) {
   if (e.target === document.getElementById('contactModal')) closeContactForm();
 }
-function handleFormSubmit(e) {
+async function handleFormSubmit(e) {
   e.preventDefault();
-  alert("Signal transmitted! I'll get back to you soon.");
-  closeContactForm();
-  e.target.reset();
+  
+  const btn = e.target.querySelector('.form-submit');
+  btn.textContent = 'SENDING...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('https://formspree.io/f/xaqlklqy', {
+      method: 'POST',
+      body: new FormData(e.target),
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (res.ok) {
+      btn.textContent = 'SENT ✓';
+      e.target.reset();
+      setTimeout(() => {
+        closeContactForm();
+        btn.textContent = 'SEND MESSAGE';
+        btn.disabled = false;
+      }, 2000);
+    } else {
+      btn.textContent = 'FAILED — TRY AGAIN';
+      btn.disabled = false;
+    }
+  } catch (err) {
+    btn.textContent = 'FAILED — TRY AGAIN';
+    btn.disabled = false;
+  }
 }
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeContactForm();
